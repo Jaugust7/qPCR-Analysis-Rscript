@@ -5,7 +5,9 @@
 ```
 # First run the script with the help file to load the requisite packages
 
-```Rscript <path>/qPCR.R -h```
+```console
+Rscript <path>/qPCR.R -h
+```
 
 -f .XLSX, --file=.XLSX
   dataset file name
