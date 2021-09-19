@@ -46,6 +46,7 @@ genes<-unique(dat$Target)
 list<-lapply(genes, function(x){
   tmp<-dat[dat$Target == x,]
 })
+
 names(list)<-genes
 
 list<-lapply(genes, function(x){

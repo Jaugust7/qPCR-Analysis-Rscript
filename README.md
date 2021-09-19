@@ -4,28 +4,33 @@
 **Usage**
 ```
 # First run the script with the help file to load the requisite packages
-Rscript <path>/qPCR.R -h
 
--f FILE, --file=FILE
-		dataset file name in xlsx format
+```Rscript <path>/qPCR.R -h```
 
-	-o OUT, --out=OUT
-		output file name for t-test results in csv format
+-f .XLSX, --file=.XLSX
+  dataset file name
 
-	-c CONTROL, --control=CONTROL
-		name of sample to be used as the control
+-o .CSV, --out=.CSV
+  output file name for stats
 
-	-p PDF, --pdf=PDF
-		output file name for PDF
+-c CONTROL, --control=CONTROL
+  name of control sample to be used
 
-	-w WIDTH, --width=WIDTH
-		width of PDF
+-p .PDF, --pdf=.PDF
+  output file name for PDF
 
-	-t HEIGHT, --height=HEIGHT
-		height of PDF
+-w INTEGER, --width=INTEGER
+  width of PDF
 
-	-h, --help
-		Show this help message and exit
-  
+-t INTEGER, --height=INTEGER
+  height of PDF
+
+-g GENE, --gene=GENE
+  gene to be used for comparison
+
+-h, --help
+  Show this help message and exit
+
+
 # Just follow the flags!
 ```
