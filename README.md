@@ -2,12 +2,12 @@
  a simple command line tool for qPCR analysis
 
 **Usage**
-```
-# First run the script with the help file to load the requisite packages
+
+### First run the script with the help file to load the requisite packages
+
 
 ```console
 Rscript <path>/qPCR.R -h
-```
 
 -f .XLSX, --file=.XLSX
   dataset file name
@@ -32,7 +32,4 @@ Rscript <path>/qPCR.R -h
 
 -h, --help
   Show this help message and exit
-
-
-# Just follow the flags!
 ```
