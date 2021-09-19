@@ -25,7 +25,9 @@ option_list = list(
   make_option(c("-w", "--width"), type="integer", default=10,
               help="width of PDF", metavar="integer"),
   make_option(c("-t", "--height"), type="integer", default=5,
-              help="height of PDF", metavar="integer")
+              help="height of PDF", metavar="integer"),
+  make_option(c("-g", "--gene"), type="character", default="Gapdh",
+              help="gene to be used for comparison")
 ); 
 
 opt_parser = OptionParser(option_list=option_list);
@@ -39,22 +41,35 @@ if (is.null(opt$file)){
 dat<-read_excel(opt$file, skip = 6)
 dat<-dat[1:which(is.na(dat))[1]-1,]
 dat<-dat[,1:3]
+dat[dat == "Undetermined"] <- NA
 genes<-unique(dat$Target)
+list<-lapply(genes, function(x){
+  tmp<-dat[dat$Target == x,]
+})
+names(list)<-genes
+
+list<-lapply(genes, function(x){
+  ifelse(anyNA(list[[x]]$Cт, recursive = T), return(), return(list[[x]]))
+})
+
+dat<-do.call(rbind, list)
+genes<-unique(dat$Target)
+dat$Cт<-as.numeric(dat$Cт)
 list<-lapply(genes, function(x){
   tmp<-dat[dat$Target == x,]
 })
 
 names(list)<-genes
+
 list<-lapply(genes, function(x){
-  tmp1<-list[[x]][str_detect(list[[x]]$`Sample Name`, regex(opt$control, ignore_case = TRUE)),]
-  tmp2<-list[[x]]$Cт - tmp1$Cт
+  tmp2<-list[[x]]$Cт - list[[opt$gene]]$Cт
   list[[x]]$delta_ct<-tmp2
   list[[x]]$rel_qty<-2^-list[[x]]$delta_ct
   return(list[[x]])
 })
 
 dat<-do.call(rbind, list)
-dat$rel_gapdh<-dat$rel_qty/dat[dat$Target %in% c("Gapdh", "mGapdh"),]$rel_qty
+dat$rel_gapdh<-dat$rel_qty/dat[dat$Target %in% opt$gene,]$rel_qty
 dat<-reshape2::melt(dat)
 dat<-dat[dat$variable == "rel_gapdh",]
 dat$`Sample Name`
@@ -63,7 +78,7 @@ dat$`Sample Name` %<>%
   gsub(" 1", "", .) %>% gsub(" 2", "", .) %>% gsub(" 3", "", .)
 colnames(dat)<-c("sample", "target", "variable", "value")
 dat<-dat[,-3]
-dat<-dat[dat$target != "Gapdh",]
+dat<-dat[dat$target != opt$gene,]
 dat$target<-as.factor(dat$target)
 dodge<-position_dodge(width = 0.8)
 
@@ -79,7 +94,7 @@ ggbarplot(dat, x = "target", y = "value",
           fill = "sample",
           position = position_dodge(0.8)) +
   geom_hline(yintercept = 1, linetype = 2, size = 1.0) + 
-  ylab("Expression relative to Gapdh") +
+  ylab(paste0("Expression relative to ", opt$gene)) +
   xlab("Gene Name") +
   labs(fill = "Sample Name") +
   theme_prism() +
