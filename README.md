@@ -3,7 +3,7 @@
 
 **Usage**
 
-### First run the script with the help file to load the requisite packages
+### First run the script with the help flag to load the requisite packages
 
 
 ```console
