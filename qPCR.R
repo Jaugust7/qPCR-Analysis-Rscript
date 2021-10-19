@@ -61,9 +61,9 @@ list<-lapply(genes, function(x){
 })
 
 names(list)<-genes
-
 list<-lapply(genes, function(x){
-  tmp2<-list[[x]]$Cт - list[[opt$gene]]$Cт
+  tmp1<-list[[x]][str_detect(list[[x]]$`Sample Name`, regex(opt$control, ignore_case = TRUE)),]
+  tmp2<-list[[x]]$Cт - tmp1$Cт
   list[[x]]$delta_ct<-tmp2
   list[[x]]$rel_qty<-2^-list[[x]]$delta_ct
   return(list[[x]])
